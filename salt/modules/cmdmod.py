@@ -290,7 +290,7 @@ def _prep_powershell_cmd(win_shell, cmd, encoded_cmd):
         # Strip whitespace
         if isinstance(cmd, list):
             cmd = " ".join(cmd)
-        new_cmd.extend(["-Command", f"& {{{cmd.strip()}}}"])
+        new_cmd.extend(["-Command", f"& {cmd.strip()}"])
 
     log.debug(new_cmd)
     return new_cmd
@@ -4104,6 +4104,7 @@ def powershell(
         cmd = salt.utils.stringutils.to_str(cmd)
         encoded_cmd = True
     else:
+        cmd = f"{{{cmd}}}"
         encoded_cmd = False
 
     # Retrieve the response, while overriding shell with 'powershell'
