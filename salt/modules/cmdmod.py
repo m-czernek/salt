@@ -290,7 +290,11 @@ def _prep_powershell_cmd(win_shell, cmd, encoded_cmd):
         # Strip whitespace
         if isinstance(cmd, list):
             cmd = " ".join(cmd)
-        new_cmd.extend(["-Command", f"& {cmd.strip()}"])
+
+        if cmd.startswith("$"):
+            new_cmd.extend(["-Command", f"{cmd.strip()}"])
+        else:
+            new_cmd.extend(["-Command", f"& {cmd.strip()}"])
 
     log.debug(new_cmd)
     return new_cmd
